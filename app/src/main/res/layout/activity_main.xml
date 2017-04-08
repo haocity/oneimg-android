@@ -7,6 +7,7 @@
     android:paddingBottom="10dp"
     android:paddingRight="0dp"
     android:paddingTop="40dp"
+    android:background="#ffffff"
     tools:context="cn.haotowm.oneimg.oneimg.MainActivity">
 
     <ImageView
