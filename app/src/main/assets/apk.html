@@ -1,4 +1,3 @@
-
 <html lang="cn">
 <head>
     <meta charset="UTF-8">
@@ -30,15 +29,39 @@
 		line-height: 2em;
 		padding: 0 10px;
 	}
+	.full{
+		position: fixed;
+	    background-color: rgba(0, 0, 0, 0.68);
+	    top: 0;
+	    left: 0;
+	    height: 100%;
+	    width: 100%;
+	}
+	.full-sms{
+		color: #fff;
+		text-align: center;
+		padding-top: 14em;
+	}
 	</style>
 
 </head>
 <body>
-
+<div class="full" id="full"><div class="full-sms">获取高清图片中...</div></div>
 <div class="pic-warp" id="pic-warp"></div>
 <div class="footer" onclick="load(5)">加载更多</div>
 <script>
-
+		var xmlhttp,oneimgnum=4300;
+		xmlhttp=new XMLHttpRequest();
+		xmlhttp.onreadystatechange=function(){
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				document.getElementById("full").style.display="none";
+				oneimgnum=parseInt(xmlhttp.responseText);
+				console.log(oneimgnum);
+			}
+		}
+		xmlhttp.open("GET","https://oneimg.haotown.cn/data/",true);
+		xmlhttp.send();
         function toastMessage(message) {
                 window.control.toastMessage(message)
           }
@@ -51,7 +74,6 @@
         function sumToJava(number1, number2){
              window.control.onSumResult(number1 + number2)
         }
-		var oneimgnum=4359;
 		var scrollloading=true;
 		var ele=document.getElementById("pic-warp");
 		load(5);
@@ -69,6 +91,10 @@
 		}
 		function oneimg(e){
 			var url="http://t4.haotown.cn/img/bj@"+ e.oneimg+".jpg";
+			document.getElementById('full').style.display='block';
+			setTimeout(function(){
+				document.getElementById('full').style.display='none';
+			},3000)
 			geturl(url,e.oneimg);
 		}
 	</script>
