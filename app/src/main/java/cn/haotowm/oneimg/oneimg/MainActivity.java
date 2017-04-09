@@ -84,9 +84,15 @@ public class MainActivity extends AppCompatActivity {
     }
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            Pattern pattern = Pattern.compile("[^\\d]");
-            Matcher matcher = pattern.matcher(detail);
-            Oneimgnumber=Integer.parseInt(matcher.replaceAll(""));
+            if(detail.length()>3){
+                Pattern pattern = Pattern.compile("[^\\d]");
+                Matcher matcher = pattern.matcher(detail);
+                Oneimgnumber=Integer.parseInt(matcher.replaceAll(""));
+            }else{
+                Toast toast= Toast.makeText(getApplicationContext(), "没有网络哦！亲💏", Toast.LENGTH_SHORT);
+                //toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
         }
     };
     /**
@@ -210,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "set image ...");
 
             } catch (Exception e) {
-               Toast.makeText(MainActivity.this,"无法链接网络！", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "No web ...");
                  e.printStackTrace();
             }
 
