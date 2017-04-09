@@ -4,6 +4,9 @@
     <title>Document</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <style>
+    body{
+    	margin: 0;
+    }
 	.main{
 		width: 100%;
 	}
@@ -41,6 +44,11 @@
 		color: #fff;
 		text-align: center;
 		padding-top: 14em;
+	}
+	.comment {
+	    float: right;
+	    color: #03A9F4;
+	    padding-right: 16px;
 	}
 	</style>
 
@@ -80,12 +88,11 @@
 		function load(num){
 			for (var i = 0; i <num; i++) {
 				var oneimgid=Math.round(Math.random() *oneimgnum);
-				var picele='<img class="pic" src="http://t4.haotown.cn/img/bj@'+oneimgid+'.jpg?imageView2/2/w/480/h/270/interlace/1/q/100" alt=""><div>ID:<span class="id">'+oneimgid+'<span>';
+				var picele='<img class="pic" onclick="oneimg(this)" src="http://t4.haotown.cn/img/bj@'+oneimgid+'.jpg?imageView2/2/w/480/h/270/interlace/1/q/100" alt=""><div style="line-height: 2em;">ID:<span class="id">'+oneimgid+'</span><a class="comment" href="https://oneimg.haotown.cn/comment.html?img='+oneimgid+'">评论</a></div>';
 				var warp= document.createElement('div');
 				warp.className="pic-box";
 				warp.innerHTML=picele;
 				warp.oneimg=oneimgid;
-				warp.onclick=function(){oneimg(this)};
 				ele.appendChild(warp);
 			}
 		}
