@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
+import android.view.KeyEvent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -87,7 +88,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        final FoundWebView myWebView = (FoundWebView) findViewById(R.id.myWebView);
+        if (keyCode == KeyEvent.KEYCODE_BACK && myWebView.canGoBack()) {
+            myWebView.goBack();// 返回前一个页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
