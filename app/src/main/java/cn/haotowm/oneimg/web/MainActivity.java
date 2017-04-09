@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import android.view.KeyEvent;
+import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -54,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         WebSettings settings = myWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         myWebView.addJavascriptInterface(new JsInteration(), "control");
+//        CookieManager cookieManager = CookieManager.getInstance();
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//        {
+//            cookieManager.setAcceptThirdPartyCookies(myWebView,true);
+//        } else {
+//            cookieManager.setAcceptCookie(true);
+//        }
         myWebView.setWebChromeClient(new WebChromeClient() {
         });
         myWebView.setWebViewClient(new WebViewClient() {

@@ -88,24 +88,33 @@
 		function load(num){
 			for (var i = 0; i <num; i++) {
 				var oneimgid=Math.round(Math.random() *oneimgnum);
-				var picele='<img class="pic" onclick="oneimg(this)" src="http://t4.haotown.cn/img/bj@'+oneimgid+'.jpg?imageView2/2/w/480/h/270/interlace/1/q/100" alt=""><div style="line-height: 2em;">ID:<span class="id">'+oneimgid+'</span><a class="comment" href="https://oneimg.haotown.cn/comment.html?img='+oneimgid+'">评论</a></div>';
+				var img =new Image;
+				img.src="http://t4.haotown.cn/img/bj@"+oneimgid+".jpg?imageView2/2/w/480/h/270/interlace/1/q/100";
+				img.onclick=function(){oneimg(this);}
+				img.className='pic';
+				img.oneimg=oneimgid;
+				var jieshao='ID:<span class="id">'+oneimgid+'</span><a class="comment" href="https://oneimg.haotown.cn/comment.html?img='+oneimgid+'">评论</a>';
 				var warp= document.createElement('div');
+				warp.appendChild(img);
+				var ele2=document.createElement('div');
+				ele2.style.lineHeight="2em";
+				ele2.innerHTML=jieshao;
+				warp.appendChild(ele2);
 				warp.className="pic-box";
-				warp.innerHTML=picele;
-				warp.oneimg=oneimgid;
 				ele.appendChild(warp);
 			}
 		}
 		function oneimg(e){
 			var url="http://t4.haotown.cn/img/bj@"+ e.oneimg+".jpg";
+			console.log(e.oneimg);
 			document.getElementById('full').style.display='block';
 			setTimeout(function(){
 				document.getElementById('full').style.display='none';
-			},3000)
+			},3000);
 			geturl(url,e.oneimg);
 		}
 	</script>
 
 
 </body>
-</html>
+</html> 
