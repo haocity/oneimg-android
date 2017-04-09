@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private GoogleApiClient client;
     private ProgressDialog mSaveDialog = null;
-    private FoundWebView compadibleDetail;
     @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,9 +206,6 @@ public class MainActivity extends AppCompatActivity {
 
             e.printStackTrace();
         }
-//        Toast.makeText(MainActivity.this, "下载完成", Toast.LENGTH_SHORT)
-//                .show();
-
         setwallpaper(new File(ff+"/" + fileName));
         mSaveDialog.dismiss();
         return file;
@@ -249,7 +245,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-    //test
 
 }
