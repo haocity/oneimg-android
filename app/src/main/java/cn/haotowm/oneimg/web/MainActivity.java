@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -48,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private GoogleApiClient client;
     private ProgressDialog mSaveDialog = null;
-
+    private FoundWebView compadibleDetail;
     @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final WebView myWebView = (WebView) findViewById(R.id.myWebView);
+        final FoundWebView myWebView = (FoundWebView) findViewById(R.id.myWebView);
         WebSettings settings = myWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         myWebView.addJavascriptInterface(new JsInteration(), "control");
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                testMethod(myWebView);
             }
 
         });
@@ -73,24 +73,26 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-
-
-
-        
-    }
-
-    private void testMethod(WebView webView) {
-//        String call = "javascript:sayHello()";
+        final FoundWebView mWebView=(FoundWebView) findViewById(R.id.myWebView);
+        mWebView.setOnCustomScroolChangeListener( new FoundWebView.ScrollInterface() {
+            @Override
+            public void onSChanged(int l, int t, int oldl, int oldt) {
+                // TODO Auto-generated method stub
+                 float  webviewHight = mWebView.getContentHeight()*mWebView.getScale();
+                //为解决4.4的系统无法获取正确的高度加一个“<10”的
+                if((int)webviewHight - (mWebView.getHeight() + mWebView.getScrollY()) == 0){
+                    Log.d("1","11111");
+                    String  call = "javascript:load(5)";
+                    mWebView.loadUrl(call);
+                }
+                //已经处于顶端
+//                if (mWebView.getScaleY() == 0) {
 //
-//        call = "javascript:alertMessage(\"" + "content" + "\")";
-//        webView.loadUrl(call);
-//        call = "javascript:toastMessage(\"" + "content" + "\")";
-//        webView.loadUrl(call);
-//        call = "javascript:sumToJava(1,2)";
-//        webView.loadUrl(call);
-
+//                }
+            }
+        });
     }
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -243,4 +245,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    //test
+
 }
