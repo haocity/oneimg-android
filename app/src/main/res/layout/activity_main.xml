@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="cn.haotowm.oneimg.web.MainActivity">
 
-    <WebView
+    <cn.haotowm.oneimg.web.FoundWebView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/myWebView"
@@ -15,5 +15,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true">
 
-    </WebView>
+    </cn.haotowm.oneimg.web.FoundWebView>
 </RelativeLayout>
