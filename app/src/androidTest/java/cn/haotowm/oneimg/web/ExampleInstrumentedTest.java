@@ -1,4 +1,4 @@
-package cn.haotowm.oneimg.oneimg;
+package cn.haotowm.oneimg.web;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("cn.haotowm.oneimg.oneimg", appContext.getPackageName());
+        assertEquals("cn.haotowm.oneimg.web", appContext.getPackageName());
     }
 }

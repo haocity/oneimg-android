@@ -1,4 +1,4 @@
-package cn.haotowm.oneimg.oneimg;
+package cn.haotowm.oneimg.web;
 
 import org.junit.Test;
 

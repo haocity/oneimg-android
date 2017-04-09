@@ -1,7 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app">ONEIMG</string>
-    <string name="btn1">GET</string>
-    <string name="btn2">SET WALLPAPER</string>
-    <string name="txt1">ONEIMG ©HAOTOWN https://oneimg.haotown.cn</string>
+    <string name="app_name">ONEIMG</string>
 </resources>
