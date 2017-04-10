@@ -63,16 +63,18 @@
 
 </head>
 <body>
-<div class="full" id="full"><img src="1.gif" style="width: 80px;" alt="" /><div class="full-sms">努力加载中...</div><div id="loading-foot">oneimg.haotown.cn</div></div>
+<div class="full" id="full"><img src="1.gif" style="width: 80px;" alt="" /><div class="full-sms"></div><div id="loading-foot">oneimg.haotown.cn</div></div>
 <div class="pic-warp" id="pic-warp"></div>
 <div class="footer" onclick="load(5)">加载更多</div>
 <script>
 		var xmlhttp,oneimgnum=4300;
 		xmlhttp=new XMLHttpRequest();
 		xmlhttp.onreadystatechange=function(){
+			document.querySelector(".full .full-sms").innerText="努力加载中...";
 			if (xmlhttp.readyState==4 )
 			{
 				if (xmlhttp.status==200) {
+
 					document.getElementById("full").style.display="none";
 					oneimgnum=parseInt(xmlhttp.responseText);
 					console.log(oneimgnum);
