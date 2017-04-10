@@ -4,11 +4,10 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
     defaultConfig {
-        applicationId "cn.haotowm.oneimg.web"
+        applicationId 'cn.haotowm.oneimg.client'
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 1
-        versionName '2.0'
+        versionName '2.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
