@@ -69,11 +69,16 @@
 		var xmlhttp,oneimgnum=4300;
 		xmlhttp=new XMLHttpRequest();
 		xmlhttp.onreadystatechange=function(){
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			if (xmlhttp.readyState==4 )
 			{
-				document.getElementById("full").style.display="none";
-				oneimgnum=parseInt(xmlhttp.responseText);
-				console.log(oneimgnum);
+				if (xmlhttp.status==200) {
+					document.getElementById("full").style.display="none";
+					oneimgnum=parseInt(xmlhttp.responseText);
+					console.log(oneimgnum);
+				}else{
+					document.querySelector(".full .full-sms").innerText="网络可能出错了 喵~ \n 请尝试联系ONEIMG.HAOTOWN.CN";
+				}
+
 			}
 		}
 		xmlhttp.open("GET","https://oneimg.haotown.cn/data/",true);
