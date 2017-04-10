@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final FoundWebView myWebView = (FoundWebView) findViewById(R.id.myWebView);
+        final HWebView myWebView = (HWebView) findViewById(R.id.myWebView);
         WebSettings settings = myWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         myWebView.addJavascriptInterface(new JsInteration(), "control");
@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        final FoundWebView mWebView=(FoundWebView) findViewById(R.id.myWebView);
-        mWebView.setOnCustomScroolChangeListener( new FoundWebView.ScrollInterface() {
+        final HWebView mWebView=(HWebView) findViewById(R.id.myWebView);
+        mWebView.setOnCustomScroolChangeListener( new HWebView.ScrollInterface() {
             @Override
             public void onSChanged(int l, int t, int oldl, int oldt) {
                 // TODO Auto-generated method stub
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        final FoundWebView myWebView = (FoundWebView) findViewById(R.id.myWebView);
+        final HWebView myWebView = (HWebView) findViewById(R.id.myWebView);
         if (keyCode == KeyEvent.KEYCODE_BACK && myWebView.canGoBack()) {
             myWebView.goBack();// 返回前一个页面
             return true;
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
             e.printStackTrace();
         }
-        final FoundWebView mWebView=(FoundWebView) findViewById(R.id.myWebView);
+        final HWebView mWebView=(HWebView) findViewById(R.id.myWebView);
         mWebView.post(new Runnable() {
             @Override
             public void run() {
