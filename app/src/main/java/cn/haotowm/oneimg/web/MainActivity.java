@@ -151,13 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void geturl(String url,String id) {
-            mSaveDialog = ProgressDialog.show(MainActivity.this, "一图壁纸", "获取高清壁纸中...", true);
             downLoadFile(url,id+".jpg");
-        }
-
-        @JavascriptInterface
-        public void onSumResult(int result) {
-            Log.i(LOGTAG, "onSumResult result=" + result);
         }
     }
 
@@ -215,8 +209,15 @@ public class MainActivity extends AppCompatActivity {
 
             e.printStackTrace();
         }
+        final FoundWebView mWebView=(FoundWebView) findViewById(R.id.myWebView);
+        mWebView.post(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                mWebView.loadUrl("javascript:fullhiden(5)");
+            }
+        });
         setwallpaper(new File(ff+"/" + fileName));
-        mSaveDialog.dismiss();
         return file;
     }
     public void setwallpaper(File file){

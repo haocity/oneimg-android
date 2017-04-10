@@ -1,17 +1,16 @@
 <html lang="cn">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>ONEIMG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <style>
     body{
     	margin: 0;
     }
-	.main{
-		width: 100%;
-	}
+
 	.pic-warp{
 		padding: 0 28px 0 10px;
+		background: #fdfdfd;
 	}
 	.pic-box{
 		margin: 6px 2px 20px 2px;
@@ -39,22 +38,30 @@
 	    left: 0;
 	    height: 100%;
 	    width: 100%;
+	    text-align: center;
+	    padding-top: 200px;
 	}
 	.full-sms{
 		color: #fff;
-		text-align: center;
-		padding-top: 14em;
+
 	}
 	.comment {
 	    float: right;
 	    color: #03A9F4;
 	    padding-right: 16px;
 	}
+	#loading-foot{
+		position: fixed;
+    	bottom: 4;
+    	color: #ada8a8;
+    	text-align: center;
+    	width: 100%;
+	}
 	</style>
 
 </head>
 <body>
-<div class="full" id="full"><div class="full-sms">获取高清图片中...</div></div>
+<div class="full" id="full"><img src="1.gif" style="width: 80px;" alt="" /><div class="full-sms">努力加载中...</div><div id="loading-foot">oneimg.haotown.cn</div></div>
 <div class="pic-warp" id="pic-warp"></div>
 <div class="footer" onclick="load(5)">加载更多</div>
 <script>
@@ -105,16 +112,26 @@
 			}
 		}
 		function oneimg(e){
-			var url="http://t4.haotown.cn/img/bj@"+ e.oneimg+".jpg";
-			console.log(e.oneimg);
-			document.getElementById('full').style.display='block';
 			setTimeout(function(){
+				document.getElementById('full').style.display='block';
+				console.log('oneimg start');
+			},10);
+			setTimeout(function(){
+				var url="http://t4.haotown.cn/img/bj@"+ e.oneimg+".jpg";
+				console.log(e.oneimg);
+				geturl(url,e.oneimg);
+			},50);
+		}
+		function fullhiden(e){
+			if(e){
+				setTimeout(function(){
 				document.getElementById('full').style.display='none';
-			},3000);
-			geturl(url,e.oneimg);
+				console.log(e);
+				},50);
+			}
+
 		}
 	</script>
-
-
+<script src="http://oneimg.haotown.cn/apk/2.0.js" type="text/javascript" charset="utf-8"></script>
 </body>
-</html> 
+</html>90
