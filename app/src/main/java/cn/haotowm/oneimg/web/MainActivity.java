@@ -83,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
                     mWebView.loadUrl(call);
                 }
                 //已经处于顶端
-//                if (mWebView.getScaleY() == 0) {
-//
-//                }
+               if (mWebView.getScrollY()<-100) {
+                   myWebView.loadUrl("file:///android_asset/apk.html");
+               }
             }
         });
     }
