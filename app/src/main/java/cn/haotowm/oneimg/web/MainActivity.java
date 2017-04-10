@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -40,11 +39,6 @@ import java.net.URL;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String LOGTAG = "MainActivity";
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
     private ProgressDialog mSaveDialog = null;
     @SuppressLint("JavascriptInterface")
@@ -85,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
                  float  webviewHight = mWebView.getContentHeight()*mWebView.getScale();
                 //为解决4.4的系统无法获取正确的高度加一个“<10”的
                 if((int)webviewHight - (mWebView.getHeight() + mWebView.getScrollY()) == 0){
-                    Log.d("1","11111");
                     String  call = "javascript:load(5)";
                     mWebView.loadUrl(call);
                 }
@@ -151,7 +144,8 @@ public class MainActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void geturl(String url,String id) {
-            downLoadFile(url,id+".jpg");
+            Oneimgset st1 = new Oneimgset(url,id);
+            st1.start();
         }
     }
 
@@ -220,6 +214,21 @@ public class MainActivity extends AppCompatActivity {
         setwallpaper(new File(ff+"/" + fileName));
         return file;
     }
+    //多线程
+    public class Oneimgset extends Thread {
+        String a,b;
+        public Oneimgset(String a, String b) {
+            super();
+            this.a = a;
+            this.b = b;
+        }
+        @Override
+        public void run() {
+            Log.d("ddd","ddd"+a+b);
+            downLoadFile(a,b+".jpg");
+        }
+    }
+
     public void setwallpaper(File file){
         Uri uri= getImageContentUri(MainActivity.this,file);
         WallpaperManager wallpaperManager =WallpaperManager.getInstance(MainActivity.this);
