@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         final HWebView myWebView = (HWebView) findViewById(R.id.myWebView);
-        if (keyCode == KeyEvent.KEYCODE_BACK && myWebView.canGoBack()) {
-            myWebView.goBack();// 返回前一个页面
+        if (keyCode == KeyEvent.KEYCODE_BACK && comment==1) {
+            String  call = "javascript:hidencomment()";
             myWebView.loadUrl(call);
             return true;
         }
