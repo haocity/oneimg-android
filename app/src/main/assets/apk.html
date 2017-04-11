@@ -178,13 +178,39 @@
 		function fullhiden(e){
 			if(e){
 				setTimeout(function(){
-				document.getElementById('full').style.display='none';
+				$d('full').style.display='none';
 				console.log(e);
 				},50);
 			}
 
 		}
+		function comment(id){
+			$d("comment-box").style.top=document.body.scrollTop+"px";
+			$d("comment-box").style.display="block";
+			$d("comment-main").src="http://oneimg.haotown.cn/comment.html?img="+id;
+			setTimeout(function(){$d("pic-warp").style.display='none';},780);
+			$d("comment-main").style.display="block";
+			setTimeout(function(){commentzt(1)},1);
+
+		}
+		function hidencomment(){
+			$d("pic-warp").style.display='block';
+			$d("comment-main").style.animation="out .8s";
+			$d("comment-main").style.webkitAnimation="out .8s";
+			setTimeout(
+				function(){
+					$d("comment-box").style.display="none";
+					$d("comment-main").display="none";
+					$d("comment-main").ClassName="";
+					$d("comment-main").style.animation=null;
+					$d("comment-main").style.webkitAnimation=null;
+				},780);
+			setTimeout(function(){commentzt(0)},1);
+		}
+
+
+
 	</script>
-<script src="http://oneimg.haotown.cn/apk/2.2.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://oneimg.haotown.cn/apk/2.4.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>
