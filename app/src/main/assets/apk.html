@@ -60,14 +60,53 @@
     	text-align: center;
     	width: 100%;
 	}
+	.comment-box{
+	    position: absolute;
+	    width: 100%;
+	    display: none;
+	}
+	#comment-main{
+	    height: 100%;
+	    width: 100%;
+	    border: none;
+	    background-color: #fff;
+	    display: none;
+	    position: relative;
+	    left: 0;
+	   animation: join .8s;
+	   -webkit-animation: join .8s;
+	}
+	@keyframes join{
+	0% {left:100%}
+	100% {left: 0}
+	}
+	@-webkit-keyframes join
+	{
+	0% {left:100%}
+	100% {left: 0}
+	}
+	@keyframes out{
+	0% {left:0}
+	100% {left:100%}
+	}
+	@-webkit-keyframes out{
+	0% {left:0}
+	100% {left:100%}
+	}
 	</style>
 
 </head>
 <body>
+<div class="comment-box" id="comment-box">
+    <iframe id="comment-main"></iframe>
+</div>
 <div class="full" id="full"><img src="1.gif" style="width: 80px;" alt="" /><div class="full-sms"></div><div id="loading-foot">oneimg.haotown.cn</div></div>
 <div class="pic-warp" id="pic-warp"></div>
 <div class="footer" onclick="load(5)">加载更多</div>
 <script>
+		function $d(e){
+			return document.getElementById(e)
+		}
 		var xmlhttp,oneimgnum=4300;
 		xmlhttp=new XMLHttpRequest();
 		xmlhttp.onreadystatechange=function(){
