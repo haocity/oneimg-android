@@ -149,6 +149,11 @@ public class MainActivity extends AppCompatActivity {
             Oneimgset st1 = new Oneimgset(url,id);
             st1.start();
         }
+        @JavascriptInterface
+        public void commentzt(int i) {
+            comment=i;
+            Log.d("test","i"+i);
+        }
     }
 
 
