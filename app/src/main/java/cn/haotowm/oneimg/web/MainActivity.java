@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         final HWebView myWebView = (HWebView) findViewById(R.id.myWebView);
         if (keyCode == KeyEvent.KEYCODE_BACK && myWebView.canGoBack()) {
             myWebView.goBack();// 返回前一个页面
+            myWebView.loadUrl(call);
             return true;
         }
         return super.onKeyDown(keyCode, event);
