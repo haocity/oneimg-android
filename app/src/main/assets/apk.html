@@ -115,7 +115,7 @@
 			{
 				if (xmlhttp.status==200) {
 
-					document.getElementById("full").style.display="none";
+					$d("full").style.display="none";
 					oneimgnum=parseInt(xmlhttp.responseText);
 					console.log(oneimgnum);
 				}else{
@@ -139,7 +139,7 @@
              window.control.onSumResult(number1 + number2)
         }
 		var scrollloading=true;
-		var ele=document.getElementById("pic-warp");
+		var ele=$d("pic-warp");
 		load(5);
 		function load(num){
 			for (var i = 0; i <num; i++) {
