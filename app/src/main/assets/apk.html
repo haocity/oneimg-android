@@ -152,7 +152,7 @@
 				img.onclick=function(){oneimg(this);}
 				img.className='pic';
 				img.oneimg=oneimgid;
-				var jieshao='ID:<span class="id">'+oneimgid+'</span><a class="comment" href="https://oneimg.haotown.cn/comment.html?img='+oneimgid+'">评论</a>';
+				var jieshao='ID:<span class="id">'+oneimgid+'</span><a class="comment" href="javascript:comment('+oneimgid+')">评论</a>';
 				var warp= document.createElement('div');
 				warp.appendChild(img);
 				var ele2=document.createElement('div');
