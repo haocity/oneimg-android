@@ -41,6 +41,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     private GoogleApiClient client;
     private ProgressDialog mSaveDialog = null;
+    private int comment=0;
     @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
