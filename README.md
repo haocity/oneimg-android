@@ -7,7 +7,7 @@
 全靠ECMAScript撑起来的..
 
 市场链接：
-[酷安](http://www.coolapk.com/apk/cn.haotowm.oneimg.client "http://www.coolapk.com/apk/cn.haotowm.oneimg.client)
+[酷安](http://www.coolapk.com/apk/cn.haotowm.oneimg.client "http://www.coolapk.com/apk/cn.haotowm.oneimg.client")
 
 ###### English
 An Animation Wallpaper web gallery android client
@@ -19,4 +19,4 @@ I am a beginner for Android,So... this project is very bad...
 All rely on ECMAScript with Webview..
 
 appshop:
-[KUAN](http://www.coolapk.com/apk/cn.haotowm.oneimg.client "http://www.coolapk.com/apk/cn.haotowm.oneimg.client)
+[KUAN](http://www.coolapk.com/apk/cn.haotowm.oneimg.client "http://www.coolapk.com/apk/cn.haotowm.oneimg.client")
