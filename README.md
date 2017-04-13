@@ -1,3 +1,5 @@
 # oneimg-android
-本人安卓水平就不说了  特别渣。。。
-能用就行...  代码都是各个网站搜索整合起来的 👶
+本人JAVA水平就不说了  特别渣。。。
+全靠ECMAScript撑起来的..
+应用商店：[酷安](http://www.coolapk.com/apk/cn.haotowm.oneimg.client "http://www.coolapk.com/apk/cn.haotowm.oneimg.client "酷安")
+
