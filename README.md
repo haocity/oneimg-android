@@ -9,4 +9,4 @@ An Animation Wallpaper web gallery android client
 wallpaper from [ONE IMG](oneimg"oneimg.haotown.cn")
 I am a beginner for Android,So... this project is very bad...
 All rely on ECMAScript with Webview..
-appshop:[酷安](http://www.coolapk.com/apk/cn.haotowm.oneimg.client "http://www.coolapk.com/apk/cn.haotowm.oneimg.client)
+appshop:[KUAN](http://www.coolapk.com/apk/cn.haotowm.oneimg.client "http://www.coolapk.com/apk/cn.haotowm.oneimg.client)
