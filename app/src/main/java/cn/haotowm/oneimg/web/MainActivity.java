@@ -160,7 +160,8 @@ public class MainActivity extends AppCompatActivity {
 
     protected File downLoadFile(String httpUrl,String fileName) {
         // TODO Auto-generated method stub
-        String ff=Environment.getExternalStorageDirectory()+ "/oneimg";
+        String ff=this.getExternalCacheDir().getAbsolutePath();
+        //String ff=Environment.getExternalStorageDirectory()+ "/oneimg";
         File tmpFile = new File(ff);
         if (!tmpFile.exists()) {
             tmpFile.mkdir();
