@@ -24,7 +24,7 @@
     }
     .pic{
         width: 100%;
-        min-height: 150px;
+        min-height: 120px;
         background-repeat:no-repeat;
         background-position:center;
         background-image: url(1.gif);
@@ -42,7 +42,7 @@
         height: 100%;
         width: 100%;
         text-align: center;
-        padding-top: 200px;
+        padding-top: 30%;
         z-index: 99;
     }
     .full-sms{
@@ -52,7 +52,7 @@
     .comment {
         float: right;
         color: #03A9F4;
-        padding-right: 16px;
+        padding:2px 16px;
         text-decoration: none;
     }
     #loading-foot{
@@ -132,7 +132,7 @@
             <div style="font-size: 8px;color: #969595;">Android 2.5.0 WebApp<br />by:疯狂减肥带</div>
     </div>
     <a href="https://github.com/haocity/oneimg-android"><li>源码</li></a>
-    <a href="https://www.haotown.cn/about.html"><li>关于</li></a>
+    <li onclick="comment('https://www.haotown.cn/about.html')">关于</li>
     <div style="position: absolute;bottom: 0;font-size: 8px;color: #969595;">所有图片均来自网络<br />All picture from the Internet<br />如有侵权 请邮件到ureygt@gmail.com</div>
 </div>
 <div class="comment-box" id="comment-box">
@@ -148,7 +148,7 @@
         var xmlhttp,oneimgnum=4300;
         xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function(){
-            document.querySelector(".full .full-sms").innerText="努力加载中...";
+             $c(".full .full-sms").innerText="努力加载中...";
             if (xmlhttp.readyState==4 )
             {
                 if (xmlhttp.status==200) {
@@ -157,7 +157,7 @@
                     oneimgnum=parseInt(xmlhttp.responseText);
                     console.log(oneimgnum);
                 }else{
-                    document.querySelector(".full .full-sms").innerText="网络可能出错了 喵~ \n 请尝试联系ONEIMG.HAOTOWN.CN";
+                    $c(".full .full-sms").innerText="网络可能出错了 喵~ \n 请尝试联系ONEIMG.HAOTOWN.CN";
                 }
 
             }
@@ -210,7 +210,14 @@
             setTimeout(function(){
                 var url="http://t4.haotown.cn/img/bj@"+ e.oneimg+".jpg";
                 console.log(e.oneimg);
-                geturl(url,e.oneimg);
+                try{
+                    geturl(url,e.oneimg);
+                }catch(e){
+                   $c(".full .full-sms").innerHTML='<br>不支持的客户端<br><a style="color:#fff;" href="http://www.coolapk.com/apk/cn.haotowm.oneimg.client" target="_blank">下载最新版</a>';
+                   $c('.full>img').src='https://ooo.0o0.ooo/2017/04/12/58edb77a667ea.png';
+                   $c('.full>img').style.background='#fff';
+                }
+                
             },50);
         }
         function fullhiden(e){
@@ -225,7 +232,12 @@
         function comment(id){
             $c("#comment-box").style.top=document.body.scrollTop+"px";
             $c("#comment-box").style.display="block";
-            $c("#comment-main").src="http://oneimg.haotown.cn/comment.html?img="+id;
+            if (Number(id)) {
+                $c("#comment-main").src="https://oneimg.haotown.cn/comment.html?img="+id;
+            }else{
+                $c("#comment-main").src=id;
+            }
+            
             setTimeout(function(){$c("#pic-warp").style.display='none';$c("#comment-box").style.top='0px'},780);
             $c("#comment-main").style.display="block";
             setTimeout(function(){commentzt(1)},1);
@@ -245,7 +257,7 @@
             setTimeout(function(){commentzt(0)},1);
         }
         //left-nav 可能不兼容安卓5.0以下版本
-        var tstart,tend;
+        var tstart,tend,tleft;
         var ua = window.navigator.userAgent;
         if(parseInt(ua.split('Android ')[1].split(';')[0]) == 4){
         document.addEventListener('touchmove',
@@ -257,8 +269,10 @@
         document.body.addEventListener('touchstart', function(e){
                 tstart=e.targetTouches[0].pageX;
                 console.log('start'+tstart);
-                if(tstart>160){
-                    tstart=999;
+                if(tstart<=160){
+                   tleft=true;
+                }else{
+                    tleft=false;
                 }
             }, false);
         document.body.addEventListener('touchend', function(e){
@@ -267,11 +281,11 @@
           function myTouchEnd(e){
                 tend=e.changedTouches[0].pageX;
                 var c=tend-tstart;
-                console.log('end'+tend);
-                if(c>160){
+                console.log('end'+c);
+                if(c>160&&tleft){
                     $c('.left-nav').style.transform='translateX(0px)';
                     $c('.left-nav').style.webkitTransform='translateX(0px)';
-                }else{
+                }else if(c<-100){
                     setTimeout(function(){
                         $c('.left-nav').style.webkitTransform='translateX(-180px)';
                         $c('.left-nav').style.transform='translateX(-180px)';
@@ -281,6 +295,6 @@
 
 
     </script>
-<script src="http://oneimg.haotown.cn/apk/2.5.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://oneimg.haotown.cn/apk/2.5.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>
