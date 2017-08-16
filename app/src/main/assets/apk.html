@@ -3,16 +3,21 @@
     <meta charset="UTF-8">
     <title>ONEIMG-一图安卓客户端</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src='./hco.js'></script>
     <style>
     body{
         margin: 0;
         overflow-x: hidden;
         overflow-y: auto;
     }
-
+    .hcomment-main{
+        background-color: #fff
+    }
     .pic-warp{
         padding: 0 28px 0 10px;
         background: #fdfdfd;
+        transition:margin 0.6s;
+        -webkit-transition:margin 0.6s;
     }
     .pic-box{
         margin: 6px 2px 20px 2px;
@@ -24,7 +29,6 @@
     }
     .pic{
         width: 100%;
-        min-height: 120px;
         background-repeat:no-repeat;
         background-position:center;
         background-image: url(1.gif);
@@ -66,35 +70,34 @@
         position: absolute;
         width: 100%;
         display: none;
-    }
-    #comment-main{
-        will-change: transform;
-        height: 100%;
-        width: 100%;
-        border: none;
+        animation: join 1s;
+        -webkit-animation:join 1s;
         background-color: #fff;
-        display: none;
-        position: relative;
-        left: 0;
-       animation: join .8s;
-       -webkit-animation: join .8s;
+        min-height: 100%;
+    }
+    .hcomment-main-img{
+        width: 100%;
     }
     @keyframes join{
     0% {transform:translateX(100%)}
-    100% {transform:translateX(0)}
+    to {}
     }
     @-webkit-keyframes join
     {
     0% {-webkit-transform:translateX(100%)}
-    100% {-webkit-transform:translateX(0%)}
+    to {}
+    }
+    .comment-box-out{
+        animation: out 1s;
+        -webkit-animation:out 1s;
     }
     @keyframes out{
-    0% {transform:translateX(0)}
-    100% {transform:translateX(100%)}
+    from {transform:translateX(0)}
+    to {transform:translateX(100%)}
     }
     @-webkit-keyframes out{
-    0% {-webkit-transform:translateX(0)}
-    100% {-webkit-transform:translateX(100%)}
+    from {-webkit-transform:translateX(0)}
+    to {-webkit-transform:translateX(100%)}
     }
     .left-nav{
         position: fixed;
@@ -121,6 +124,13 @@
         color: #000;
         text-decoration: none;
     }
+    .ew-info>.ew-send-btn{
+        background-color: #3F51B5;
+    }
+    .ew-bar{
+        visibility: hidden;
+        margin:0
+    }
     </style>
 
 </head>
@@ -132,169 +142,186 @@
             <div style="font-size: 8px;color: #969595;">Android 2.5.0 WebApp<br />by:疯狂减肥带</div>
     </div>
     <a href="https://github.com/haocity/oneimg-android"><li>源码</li></a>
-    <li onclick="comment('https://www.haotown.cn/about.html')">关于</li>
-    <div style="position: absolute;bottom: 0;font-size: 8px;color: #969595;">所有图片均来自网络<br />All picture from the Internet<br />如有侵权 请邮件到ureygt@gmail.com</div>
+    <a href="https://www.haotown.cn/about.html"><li>关于</li></a>
+    <div style="position: absolute;bottom: 0;left: 0;width:100%;font-size: 8px;color: #969595;">所有图片均来自网络<br />All picture from the Internet<br />如有侵权 请邮件到ureygt@gmail.com</div>
 </div>
 <div class="comment-box" id="comment-box">
-    <iframe id="comment-main"></iframe>
+    <img class="hcomment-main-img" src="">
+    <div class="hcomment-main"></div>
 </div>
 <div class="full" id="full"><img src="1.gif" style="width: 80px;" alt="" /><div class="full-sms"></div><div id="loading-foot">oneimg.haotown.cn</div></div>
 <div class="pic-warp" id="pic-warp"></div>
 <div class="footer" onclick="load(5)">加载更多</div>
 <script>
-        function $c(e){
-            return document.querySelector(e)
-        }
-        var xmlhttp,oneimgnum=4300;
-        xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function(){
-             $c(".full .full-sms").innerText="努力加载中...";
-            if (xmlhttp.readyState==4 )
-            {
-                if (xmlhttp.status==200) {
+function $c(e) {
+    return document.querySelector(e)
+}
+var xmlhttp, oneimgnum = 4300;
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    $c(".full .full-sms").innerText = "努力加载中...";
+    if (xmlhttp.readyState == 4) {
+        if (xmlhttp.status == 200) {
 
-                    $c("#full").style.display="none";
-                    oneimgnum=parseInt(xmlhttp.responseText);
-                    console.log(oneimgnum);
-                }else{
-                    $c(".full .full-sms").innerText="网络可能出错了 喵~ \n 请尝试联系ONEIMG.HAOTOWN.CN";
-                }
+            $c("#full").style.display = "none";
+            oneimgnum = parseInt(xmlhttp.responseText);
+            console.log(oneimgnum);
+        } else {
+            $c(".full .full-sms").innerText = "网络可能出错了 喵~ \n 请尝试联系ONEIMG.HAOTOWN.CN";
+        }
 
-            }
+    }
+}
+xmlhttp.open("GET", "https://oneimg.haotown.cn/data/", true);
+xmlhttp.send();
+function toastMessage(message) {
+    window.control.toastMessage(message)
+}
+function geturl(url, id) {
+    window.control.geturl(url, id)
+}
+function commentzt(id) {
+    window.control.commentzt(id)
+}
+function alertMessage(message) {
+    alert(message)
+}
+function sumToJava(number1, number2) {
+    window.control.onSumResult(number1 + number2)
+}
+var scrollloading = true;
+var ele = $c("#pic-warp");
+load(5);
+function load(num) {
+    for (var i = 0; i < num; i++) {
+        var oneimgid = Math.round(Math.random() * oneimgnum);
+        var img = new Image;
+        img.src = "http://t4.haotown.cn/img/bj@" + oneimgid + ".jpg?imageView2/2/w/480/h/270/interlace/1/q/100";
+        img.onclick = function() {
+            oneimg(this);
         }
-        xmlhttp.open("GET","https://oneimg.haotown.cn/data/",true);
-        xmlhttp.send();
-        function toastMessage(message) {
-                window.control.toastMessage(message)
-          }
-         function geturl(url,id) {
-                window.control.geturl(url,id)
-          }
-        function commentzt(id) {
-                window.control.commentzt(id)
-          }
-        function alertMessage(message) {
-            alert(message)
-         }
-        function sumToJava(number1, number2){
-             window.control.onSumResult(number1 + number2)
+        img.className = 'pic';
+        img.oneimg = oneimgid;
+        var jieshao = 'ID:<span class="id">' + oneimgid + '</span><a class="comment" href="javascript:comment(' + oneimgid + ')">评论</a>';
+        var warp = document.createElement('div');
+        warp.appendChild(img);
+        var ele2 = document.createElement('div');
+        ele2.style.lineHeight = "2em";
+        ele2.style.paddingLeft = "6px";
+        ele2.innerHTML = jieshao;
+        warp.appendChild(ele2);
+        warp.className = "pic-box";
+        ele.appendChild(warp);
+    }
+}
+function oneimg(e) {
+    setTimeout(function() {
+        $c('#full').style.display = 'block';
+        console.log('oneimg start');
+    },
+    10);
+    setTimeout(function() {
+        var url = "http://t4.haotown.cn/img/bj@" + e.oneimg + ".jpg";
+        console.log(e.oneimg);
+        try {
+            geturl(url, e.oneimg);
+        } catch(e) {
+            $c(".full .full-sms").innerHTML = '<br>不支持的客户端<br><a style="color:#fff;" href="http://www.coolapk.com/apk/cn.haotowm.oneimg.client" target="_blank">下载最新版</a>';
+            $c('.full>img').src = 'https://ooo.0o0.ooo/2017/04/12/58edb77a667ea.png';
+            $c('.full>img').style.background = '#fff';
         }
-        var scrollloading=true;
-        var ele=$c("#pic-warp");
-        load(5);
-        function load(num){
-            for (var i = 0; i <num; i++) {
-                var oneimgid=Math.round(Math.random() *oneimgnum);
-                var img =new Image;
-                img.src="http://t4.haotown.cn/img/bj@"+oneimgid+".jpg?imageView2/2/w/480/h/270/interlace/1/q/100";
-                img.onclick=function(){oneimg(this);}
-                img.className='pic';
-                img.oneimg=oneimgid;
-                var jieshao='ID:<span class="id">'+oneimgid+'</span><a class="comment" href="javascript:comment('+oneimgid+')">评论</a>';
-                var warp= document.createElement('div');
-                warp.appendChild(img);
-                var ele2=document.createElement('div');
-                ele2.style.lineHeight="2em";
-                ele2.style.paddingLeft="6px";
-                ele2.innerHTML=jieshao;
-                warp.appendChild(ele2);
-                warp.className="pic-box";
-                ele.appendChild(warp);
-            }
-        }
-        function oneimg(e){
-            setTimeout(function(){
-                $c('#full').style.display='block';
-                console.log('oneimg start');
-            },10);
-            setTimeout(function(){
-                var url="http://t4.haotown.cn/img/bj@"+ e.oneimg+".jpg";
-                console.log(e.oneimg);
-                try{
-                    geturl(url,e.oneimg);
-                }catch(e){
-                   $c(".full .full-sms").innerHTML='<br>不支持的客户端<br><a style="color:#fff;" href="http://www.coolapk.com/apk/cn.haotowm.oneimg.client" target="_blank">下载最新版</a>';
-                   $c('.full>img').src='https://ooo.0o0.ooo/2017/04/12/58edb77a667ea.png';
-                   $c('.full>img').style.background='#fff';
-                }
-                
-            },50);
-        }
-        function fullhiden(e){
-            if(e){
-                setTimeout(function(){
-                $c('#full').style.display='none';
-                console.log(e);
-                },50);
-            }
 
-        }
-        function comment(id){
-            $c("#comment-box").style.top=document.body.scrollTop+"px";
-            $c("#comment-box").style.display="block";
-            if (Number(id)) {
-                $c("#comment-main").src="https://oneimg.haotown.cn/comment.html?img="+id;
-            }else{
-                $c("#comment-main").src=id;
-            }
-            
-            setTimeout(function(){$c("#pic-warp").style.display='none';$c("#comment-box").style.top='0px'},780);
-            $c("#comment-main").style.display="block";
-            setTimeout(function(){commentzt(1)},1);
-        }
-        function hidencomment(){
-            $c("#pic-warp").style.display='block';
-            $c("#comment-main").style.animation="out .8s";
-            $c("#comment-main").style.webkitAnimation="out .8s";
-            setTimeout(
-                function(){
-                    $c("#comment-box").style.display="none";
-                    $c("#comment-main").display="none";
-                    $c("#comment-main").ClassName="";
-                    $c("#comment-main").style.animation=null;
-                    $c("#comment-main").style.webkitAnimation=null;
-                },780);
-            setTimeout(function(){commentzt(0)},1);
-        }
-        //left-nav 可能不兼容安卓5.0以下版本
-        var tstart,tend,tleft;
-        var ua = window.navigator.userAgent;
-        if(parseInt(ua.split('Android ')[1].split(';')[0]) == 4){
-        document.addEventListener('touchmove',
-            function(e){  
-                window.clearInterval(timerId); 
-                timerId = window.setTimeout(myTouchEnd, 200,e); 
-            } )
-        }
-        document.body.addEventListener('touchstart', function(e){
-                tstart=e.targetTouches[0].pageX;
-                console.log('start'+tstart);
-                if(tstart<=160){
-                   tleft=true;
-                }else{
-                    tleft=false;
-                }
-            }, false);
-        document.body.addEventListener('touchend', function(e){
-                 myTouchEnd(e)
-            }, false);
-          function myTouchEnd(e){
-                tend=e.changedTouches[0].pageX;
-                var c=tend-tstart;
-                console.log('end'+c);
-                if(c>160&&tleft){
-                    $c('.left-nav').style.transform='translateX(0px)';
-                    $c('.left-nav').style.webkitTransform='translateX(0px)';
-                }else if(c<-100){
-                    setTimeout(function(){
-                        $c('.left-nav').style.webkitTransform='translateX(-180px)';
-                        $c('.left-nav').style.transform='translateX(-180px)';
-                    },5);
-                }
-            }
+    },
+    50);
+}
+function fullhiden(e) {
+    if (e) {
+        setTimeout(function() {
+            $c('#full').style.display = 'none';
+            console.log(e);
+        },
+        50);
+    }
 
+}
+function comment(id) {
+    $c('.comment-box').style.minHeight = window.screen.height + 'px';
+    $c('.hcomment-main-img').src = 'http://t4.haotown.cn/img/bj@' + id + '.jpg?imageView2/2/w/480/h/270/interlace/1/q/100';
+    $c("#comment-box").style.top = document.body.scrollTop + "px";
+    $c("#comment-box").style.display = "block";
+    $c('.hcomment-main').innerHTML = '';
+    new Hco('.hcomment-main', 'oneimg', id);
+    setTimeout(function() {
+        $c('.pic-warp').style.display = 'none';
+        $c('.comment-box').style.top = 0;
+        window.scrollTo(0, 0);
+        try {
+            commentzt(1)
+        } catch(e) {}
+    },
+    1000);
 
-    </script>
+}
+
+function hidencomment() {
+    $c(".pic-warp").style.display = 'block';
+    $c(".comment-box").className='comment-box comment-box-out';
+    setTimeout(function(){
+        $c(".comment-box").style.display='none'
+        $c(".comment-box").className='comment-box';
+    },960,false);
+    try {
+        commentzt(0)
+    } catch(e) {}
+}
+var xend,xstart,inleft,yend,ystart,intop;
+document.body.addEventListener('touchend',
+function(e) {
+    myTouchEnd(e)
+},
+false);
+document.body.addEventListener('touchstart', function(e){
+    xstart=e.targetTouches[0].pageX;
+    ystart=e.targetTouches[0].pageY;
+    if (ystart<=screen.width/2&&document.body.scrollTop<100) {
+        intop=true;
+    }else{
+        intop=false;
+    }
+    if(xstart<=screen.width/2){
+        inleft=true;
+    }else{
+        inleft=false;
+    }
+}, false);
+function myTouchEnd(e) {
+    xend = e.changedTouches[0].pageX;
+    yend = e.changedTouches[0].pageY;
+    var c = xend - xstart;
+    var d = yend - ystart;
+    console.log('end x:' + c+' end y:'+d);
+    if (c > 160 && inleft&&d<70&&d>-70) {
+        if ($c('.comment-box').style.display=='block') {
+            hidencomment();
+        }else{
+            $c('.left-nav').style.transform = 'translateX(0px)';
+            $c('.left-nav').style.webkitTransform = 'translateX(0px)';
+        }
+    } else if (c < -100&&d<70&&d>-70) {
+        $c('.left-nav').style.webkitTransform = 'translateX(-180px)';
+        $c('.left-nav').style.transform = 'translateX(-180px)';
+    }else if(d>200&&c<70&&c>-70&&intop){
+        console.log('上拉触发');
+        $c('.pic-warp').style.marginTop='120px';
+        setTimeout(function(){
+             $c('.pic-warp').innerHTML='';
+             load(5);
+             $c('.pic-warp').style.marginTop='0px';
+        },600);
+    }
+}
+document.write('<style>.pic{min-height:' + $c('.pic-box').offsetWidth * 0.56 + 'px' + '}</style>')
+</script>
 <script src="https://oneimg.haotown.cn/apk/2.5.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

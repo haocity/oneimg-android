@@ -50,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         final HWebView myWebView = (HWebView) findViewById(R.id.myWebView);
         WebSettings settings = myWebView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setDatabaseEnabled(true);
+        String dir = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
+        settings.setDatabasePath(dir);
+        settings.setDomStorageEnabled(true);
+        settings.setGeolocationEnabled(true);
         myWebView.addJavascriptInterface(new JsInteration(), "control");
 //        CookieManager cookieManager = CookieManager.getInstance();
 //        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -161,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
     protected File downLoadFile(String httpUrl,String fileName) {
         // TODO Auto-generated method stub
         String ff=this.getExternalCacheDir().getAbsolutePath();
+        Log.i("xx", "downLoadFile: "+this.getExternalCacheDir().getAbsolutePath());
         //String ff=Environment.getExternalStorageDirectory()+ "/oneimg";
         File tmpFile = new File(ff);
         if (!tmpFile.exists()) {
