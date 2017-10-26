@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 27
     buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId 'cn.haotowm.oneimg.client'
         minSdkVersion 19
-        targetSdkVersion 25
-        versionName '2.5.0'
+        targetSdkVersion 27
+        versionName '2.7.0'
         ndk {
             abiFilter "armeabi"
         }
