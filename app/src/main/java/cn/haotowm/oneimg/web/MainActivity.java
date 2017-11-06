@@ -3,15 +3,21 @@ package cn.haotowm.oneimg.web;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -23,7 +29,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
+import android.view.Display;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -36,6 +44,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -222,6 +231,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
+        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            Log.d("msg", "裁剪完成");
+            final Uri resultUri = UCrop.getOutput(data);
+            String f= new File(getCacheDir(), "wallpage.jpeg").getPath();
+            BitmapDrawable source = new BitmapDrawable(f);
+            try {
+                Log.d("msg", "开始设置壁纸");
+                WallpaperManager wallpaperManager =WallpaperManager.getInstance(this);
+
+                wallpaperManager.setBitmap(source.getBitmap());
+                Log.d("msg", "壁纸设置完成");
+
+            }catch (IOException k){
+                k.printStackTrace();
+            }
+
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
+        }
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -233,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -373,10 +403,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void setwallpaper(File file){
         Uri uri= getImageContentUri(MainActivity.this,file);
-        WallpaperManager wallpaperManager =WallpaperManager.getInstance(MainActivity.this);
-        Intent intent = new Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri));
-        startActivity(intent);
+//        WallpaperManager wallpaperManager =WallpaperManager.getInstance(MainActivity.this);
+//        Intent intent = new Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri));
+//        startActivity(intent);
+        Uri sourceUri = uri;
+        //裁剪后保存到文件中
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        Uri destinationUri = Uri.fromFile(new File(getCacheDir(), "wallpage.jpeg"));
+//        UCrop.Options options = new UCrop.Options();
+//        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
+        UCrop.of(sourceUri, destinationUri).start(MainActivity.this);
+
     }
+
+
+
+
     /**URI转换
      * Gets the content:// URI  from the given corresponding path to a file
      * @param context
@@ -406,5 +452,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
 }
