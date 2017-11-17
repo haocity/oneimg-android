@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">一图壁纸</string>
+    <string name="set">设置</string>
+    <string name="set1">
+        模式一 使用启动器设置壁纸 \n启动器不支持的情况下启用模式二\n\n
+        模式二 启用图片裁剪后设置  \n部分设备可能切图卡住 请切图后等待几秒 点击退出即可设置壁纸  \n\n
+        模式三 直接设置整张图片
+    </string>
+    <string name="about">关于</string>
+    <string name="about1">
+        最美的壁纸给最美的你 \n
+        一图壁纸是个小型的壁纸网站 \n
+        在这里你可以找到大量的动漫壁纸 \n
+        本站所有资源均来自网络 \n
+        如果对你造成侵权行为，请联系我 \n
+        E-maill:ureygt@gmail.com \n
+        By:疯狂减肥带 \n
+        感谢!
+    </string>
 </resources>

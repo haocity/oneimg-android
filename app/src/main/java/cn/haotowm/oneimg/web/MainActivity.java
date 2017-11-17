@@ -1,17 +1,17 @@
 package cn.haotowm.oneimg.web;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -31,8 +31,9 @@ import android.util.Log;
 
 import android.view.Display;
 import android.view.KeyEvent;
-import android.view.WindowManager;
-import android.webkit.CookieManager;
+//import android.webkit.CookieManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -69,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -129,6 +133,103 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    //重写onCreatOptionsMenu()方法
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+    //重写on=OptionsItemSelected()方法
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.set_item:
+                String mode=getmode();
+                AlertDialog dialog1 = new AlertDialog.Builder(this)
+               .setTitle(R.string.set)//设置对话框的标题
+               .setMessage(R.string.set1)//设置对话框的内容
+                //设置对话框的按钮
+                .setNeutralButton("模式一(默认)", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                changermode("1");
+                                dialog.dismiss();
+                            }
+                  })
+                .setNegativeButton("模式二", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                changermode("2");
+                                dialog.dismiss();
+                            }
+                })
+
+                  .setPositiveButton("模式三", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                changermode("3");
+                                dialog.dismiss();
+                            }
+                  }).create();
+                dialog1.show();
+                break;
+            case R.id.about_item:
+                AlertDialog dialog2 = new AlertDialog.Builder(this)
+                        //.setIcon(R.mipmap.icon)//设置标题的图片
+                        .setTitle(R.string.about)//设置对话框的标题
+                        .setMessage(R.string.about1)//设置对话框的内容
+                        //设置对话框的按钮
+                        .setNegativeButton("BLOG", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Uri  uri = Uri.parse("https://www.haotown.cn");
+                                Intent  intent = new  Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNeutralButton("GITHUB", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Uri  uri = Uri.parse("https://github.com/haocity/oneimg-android");
+                                Intent  intent = new  Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                dialog2.show();
+                break;
+            default:
+        }
+        return true;
+
+    }
+
+    //修改模式
+    private void changermode(String i){
+        SharedPreferences mySharedPreferences= getSharedPreferences("test",
+                Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        editor.putString("mode", i);
+        editor.commit();
+        Toast.makeText(this, "模式切换至模式" +i, Toast.LENGTH_LONG).show();
+    }
+
+    //获取模式
+    public String getmode(){
+        SharedPreferences mySharedPreferences= getSharedPreferences("test",
+                Activity.MODE_PRIVATE);
+        String str =mySharedPreferences.getString("mode", "1");
+        Log.d("msg", "getmode: "+str);
+        return str;
     }
 
     // 提示用户该请求权限的弹出框
@@ -231,16 +332,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        //截图回调
 
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             Log.d("msg", "裁剪完成");
             final Uri resultUri = UCrop.getOutput(data);
-            String f= new File(getCacheDir(), "wallpage.jpeg").getPath();
+            String f= new File(getCacheDir(), "wallpage.png").getPath();
             BitmapDrawable source = new BitmapDrawable(f);
             try {
                 Log.d("msg", "开始设置壁纸");
                 WallpaperManager wallpaperManager =WallpaperManager.getInstance(this);
-
                 wallpaperManager.setBitmap(source.getBitmap());
                 Log.d("msg", "壁纸设置完成");
 
@@ -250,6 +351,8 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
+        }else{
+            Log.d("msg", "无用回调");
         }
     }
     @Override
@@ -262,7 +365,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -396,33 +498,85 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         public void run() {
-            Log.d("ddd","ddd"+a+b);
-            downLoadFile(a,b+".jpg");
+            if(fileIsExists(Environment.getExternalStorageDirectory()+ "/oneimg"+"/" +b+".jpg")){
+                Log.d("msg","文件已经存在"+b);
+                final HWebView mWebView=(HWebView) findViewById(R.id.myWebView);
+                mWebView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        mWebView.loadUrl("javascript:fullhiden(5)");
+                    }
+                });
+                setwallpaper(new File(Environment.getExternalStorageDirectory()+ "/oneimg"+"/" +b+".jpg"));
+            }else{
+                Log.d("msg","下载"+a+b);
+                downLoadFile(a,b+".jpg");
+            }
+
         }
     }
 
     public void setwallpaper(File file){
         Uri uri= getImageContentUri(MainActivity.this,file);
-//        WallpaperManager wallpaperManager =WallpaperManager.getInstance(MainActivity.this);
-//        Intent intent = new Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri));
-//        startActivity(intent);
-        Uri sourceUri = uri;
-        //裁剪后保存到文件中
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        Uri destinationUri = Uri.fromFile(new File(getCacheDir(), "wallpage.jpeg"));
-//        UCrop.Options options = new UCrop.Options();
-//        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
-        UCrop.of(sourceUri, destinationUri).start(MainActivity.this);
+        //获取模式
+        int mode= Integer.parseInt(getmode());
+        Log.d("mode", "setwallpaper: "+mode);
+         if(mode==2){
+             //裁剪后保存到文件中
+             Uri destinationUri = Uri.fromFile(new File(getCacheDir(), "wallpage.png"));
+             //初始化，第一个参数：需要裁剪的图片；第二个参数：裁剪后图片
+             UCrop uCrop = UCrop.of(uri, destinationUri);
+             //初始化UCrop配置
+             UCrop.Options options = new UCrop.Options();
+             //设置裁剪图片可操作的手势
+             //options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
+             //是否隐藏底部容器，默认显示
+             //options.setHideBottomControls(true);
+             //设置toolbar颜色
+             options.setToolbarColor(ActivityCompat.getColor(this, R.color.colorPrimary));
+             //设置状态栏颜色
+             options.setStatusBarColor(ActivityCompat.getColor(this, R.color.colorPrimaryDark));
+             //是否能调整裁剪框
+             options.setFreeStyleCropEnabled(true);
+             options.setCompressionFormat(Bitmap.CompressFormat.PNG);
+             //UCrop配置
+             uCrop.withOptions(options);
+             //设置裁剪图片的宽高比，比如16：9
+             //uCrop.withAspectRatio(aspectRatioX, aspectRatioY);
+             //uCrop.withMaxResultSize(900,900);
+             //uCrop.useSourceImageAspectRatio();
+             //跳转裁剪页面
+             uCrop.start(this);
+        }else if (mode==3){
+             WallpaperManager wallpaperManager =WallpaperManager.getInstance(MainActivity.this);
+             String path = file.getPath();
+             BitmapDrawable source = new BitmapDrawable(path);
+             try {
+                 wallpaperManager.setBitmap(source.getBitmap());
+                 Toast.makeText(getApplicationContext(), "设置完成", Toast.LENGTH_SHORT).show();
+            }catch (IOException k){
+                 Looper.prepare();
+                 Toast.makeText(getApplicationContext(), "出现错误了..请尝试更改模式", Toast.LENGTH_SHORT).show();
+                 Looper.loop();
+                k.printStackTrace();
+            }
+        }else{
+             WallpaperManager wallpaperManager =WallpaperManager.getInstance(MainActivity.this);
+              try{
+                Intent intent = new Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri));
+                startActivity(intent);
+             }catch (Exception e){
+                  Looper.prepare();
+                  changermode("2");
+                  setwallpaper(file);
+                  Looper.loop();
+              }
+
+         }
+
 
     }
-
-
-
-
     /**URI转换
      * Gets the content:// URI  from the given corresponding path to a file
      * @param context
@@ -452,6 +606,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    //判断文件是否存在
+    public boolean fileIsExists(String strFile)
+    {
+        try
+        {
+            File f=new File(strFile);
+            if(!f.exists())
+            {
+                return false;
+            }
 
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return true;
+    }
 
 }

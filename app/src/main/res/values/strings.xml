@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">ONEIMG</string>
+    <string name="set">Setting</string>
+    <string name="set1">
+        Use desktop set  \n
+        Use Cut \n
+        Direct setting
+    </string>
+    <string name="about">About</string>
+    <string name="about1">
+        The most beautiful wallpaper to your most beautiful \n
+        Oneimg wallpager is a small wallpager website \n
+        In here, You can find your anime wallpaper \n
+        All the resources are from the Internet \n
+        If it infringes your copyright,Please contact me \n
+        E-maill:ureygt@gmail.com \n
+        Author:疯狂减肥带
+        THANKS!
+    </string>
+
 </resources>

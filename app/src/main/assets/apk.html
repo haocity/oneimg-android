@@ -14,7 +14,7 @@
         background-color: #fff
     }
     .pic-warp{
-        padding: 0 28px 0 10px;
+        padding: 0 24px 0 14px;
         background: #fdfdfd;
         transition:margin 0.6s;
         -webkit-transition:margin 0.6s;
@@ -99,59 +99,27 @@
     from {-webkit-transform:translateX(0)}
     to {-webkit-transform:translateX(100%)}
     }
-    .left-nav{
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 180px;
-        transform: translateX(-180px);
-        -webkit-transform: translateX(-180px);
-        height: 100%;
-        background-color: #f5f5f5;
-        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-        text-align: center;
-    }
-    .left-nav-frame{
-        will-change: transform;
-        transition: transform 1s;
-        -webkit-transition: transform 1s;
-    }
-    .left-nav li{
-        list-style: none;
-        margin: 4px 0;
-    }
-    .left-nav a{
-        color: #000;
-        text-decoration: none;
-    }
+
     .ew-info>.ew-send-btn{
-        background-color: #3F51B5;
+        background-color: #FF4081;
     }
     .ew-bar{
         visibility: hidden;
         margin:0
     }
+
     </style>
 
 </head>
 <body>
-<div class="left-nav left-nav-frame">
-    <img src="https://oneimg.haotown.cn/res/logo.png" width="160px"/>
-    <div class="info">
-        <h2 style="font-size: 10px;">ONEIMG 一图</h1>
-            <div style="font-size: 8px;color: #969595;">Android 2.5.0 WebApp<br />by:疯狂减肥带</div>
-    </div>
-    <a href="https://github.com/haocity/oneimg-android"><li>源码</li></a>
-    <a href="https://www.haotown.cn/about.html"><li>关于</li></a>
-    <div style="position: absolute;bottom: 0;left: 0;width:100%;font-size: 8px;color: #969595;">所有图片均来自网络<br />All picture from the Internet<br />如有侵权 请邮件到ureygt@gmail.com</div>
-</div>
-<div class="comment-box" id="comment-box">
+
+<div class="comment-box" >
     <img class="hcomment-main-img" src="">
     <div class="hcomment-main"></div>
 </div>
-<div class="full" id="full"><img src="1.gif" style="width: 80px;" alt="" /><div class="full-sms"></div><div id="loading-foot">oneimg.haotown.cn</div></div>
+<div class="full" ><img src="1.gif" style="width: 80px;" /><div class="full-sms"></div><div id="loading-foot">oneimg.haotown.cn</div></div>
 <div class="pic-warp" id="pic-warp"></div>
-<div class="footer" onclick="load(5)">加载更多</div>
+<div class="footer" onclick="load(5)" style="display:none">加载更多</div>
 <script>
 function $c(e) {
     return document.querySelector(e)
@@ -162,10 +130,11 @@ xmlhttp.onreadystatechange = function() {
     $c(".full .full-sms").innerText = "努力加载中...";
     if (xmlhttp.readyState == 4) {
         if (xmlhttp.status == 200) {
-
-            $c("#full").style.display = "none";
+            $c(".full").style.display = "none";
             oneimgnum = parseInt(xmlhttp.responseText);
             console.log(oneimgnum);
+            load(5);
+            $c(".footer").style.display="block"
         } else {
             $c(".full .full-sms").innerText = "网络可能出错了 喵~ \n 请尝试联系ONEIMG.HAOTOWN.CN";
         }
@@ -186,12 +155,9 @@ function commentzt(id) {
 function alertMessage(message) {
     alert(message)
 }
-function sumToJava(number1, number2) {
-    window.control.onSumResult(number1 + number2)
-}
 var scrollloading = true;
 var ele = $c("#pic-warp");
-load(5);
+
 function load(num) {
     for (var i = 0; i < num; i++) {
         var oneimgid = Math.round(Math.random() * oneimgnum);
@@ -202,6 +168,7 @@ function load(num) {
         }
         img.className = 'pic';
         img.oneimg = oneimgid;
+        img.height=(screen.width-40)*0.5625;
         var jieshao = 'ID:<span class="id">' + oneimgid + '</span><a class="comment" href="javascript:comment(' + oneimgid + ')">评论</a>';
         var warp = document.createElement('div');
         warp.appendChild(img);
@@ -216,7 +183,7 @@ function load(num) {
 }
 function oneimg(e) {
     setTimeout(function() {
-        $c('#full').style.display = 'block';
+        $c('.full').style.display = 'block';
         console.log('oneimg start');
     },
     10);
@@ -237,7 +204,7 @@ function oneimg(e) {
 function fullhiden(e) {
     if (e) {
         setTimeout(function() {
-            $c('#full').style.display = 'none';
+            $c('.full').style.display = 'none';
             console.log(e);
         },
         50);
@@ -247,8 +214,8 @@ function fullhiden(e) {
 function comment(id) {
     $c('.comment-box').style.minHeight = window.screen.height + 'px';
     $c('.hcomment-main-img').src = 'http://t4.haotown.cn/img/bj@' + id + '.jpg?imageView2/2/w/480/h/270/interlace/1/q/100';
-    $c("#comment-box").style.top = document.body.scrollTop + "px";
-    $c("#comment-box").style.display = "block";
+    $c(".comment-box").style.top = document.body.scrollTop + "px";
+    $c(".comment-box").style.display = "block";
     $c('.hcomment-main').innerHTML = '';
     new Hco('.hcomment-main', 'oneimg', id);
     setTimeout(function() {
@@ -299,18 +266,14 @@ function myTouchEnd(e) {
     yend = e.changedTouches[0].pageY;
     var c = xend - xstart;
     var d = yend - ystart;
-    console.log('end x:' + c+' end y:'+d);
+    //左侧右滑动
     if (c > 160 && inleft&&d<70&&d>-70) {
         if ($c('.comment-box').style.display=='block') {
             hidencomment();
-        }else{
-            $c('.left-nav').style.transform = 'translateX(0px)';
-            $c('.left-nav').style.webkitTransform = 'translateX(0px)';
         }
-    } else if (c < -100&&d<70&&d>-70) {
-        $c('.left-nav').style.webkitTransform = 'translateX(-180px)';
-        $c('.left-nav').style.transform = 'translateX(-180px)';
-    }else if(d>200&&c<70&&c>-70&&intop){
+    }
+
+   	if(d>200&&c<70&&c>-70&&intop){
         console.log('上拉触发');
         $c('.pic-warp').style.marginTop='120px';
         setTimeout(function(){
@@ -320,8 +283,9 @@ function myTouchEnd(e) {
         },600);
     }
 }
-document.write('<style>.pic{min-height:' + $c('.pic-box').offsetWidth * 0.56 + 'px' + '}</style>')
+var f=document.createElement('script');
+f.src='https://oneimg.haotown.cn/apk/3.0.js?time='+new Date().getTime();
+document.body.appendChild(f);
 </script>
-<script src="https://oneimg.haotown.cn/apk/2.5.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>
