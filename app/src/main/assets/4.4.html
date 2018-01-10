@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>ONEIMG</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="hco.js" type="text/javascript" charset="utf-8"></script>
+		<script src="alloy_finger.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="full" style="display: none;">
+			<img src="1.gif" style="width: 80px;" />
+			<div class="full-sms">正在加载</div>
+			<div class="loading-foot">oneimg.haotown.cn</div>
+		</div>
+		
+		<div class="content">
+			<div class="pic-warp">
+				
+			</div>
+		</div>
+		<div class="left-menu"></div>
+		<div class="right-menu">
+			<img class="hco-img" src="">
+    		<div class="hco-w"></div>
+		</div>
+	</body>
+	<script src="main.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		document.querySelector('.pic-warp').addEventListener('click',function(e){
+			console.log(e.target.nodeName)
+			if(e.target.nodeName=='IMG'){
+				var id=e.target.parentElement.parentElement.getAttribute("pid");
+				oneimg(id);
+			}else if(e.target.className=='left'){
+				var id=e.target.parentElement.parentElement.getAttribute("pid");
+				o.savelove(id);
+				toastMessage('已经对'+id+'图片收藏')
+			}
+		});
+		
+		toastMessage('很抱歉,你的安卓版本过低,可能无法达到最佳体验..')
+	</script>
+</html>

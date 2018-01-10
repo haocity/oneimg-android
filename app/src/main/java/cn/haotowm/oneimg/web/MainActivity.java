@@ -64,15 +64,16 @@ public class MainActivity extends AppCompatActivity {
     private GoogleApiClient client;
     private ProgressDialog mSaveDialog = null;
     private int canback=0;
+    private String  indexurl="file:///android_asset/new.html";
     @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            indexurl = "file:///android_asset/4.4.html";
+        }
         // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 showDialogTipUserRequestPermission();
             }
         }
+
+
         final HWebView myWebView = (HWebView) findViewById(R.id.myWebView);
         WebSettings settings = myWebView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        myWebView.loadUrl("file:///android_asset/new.html");
+        myWebView.loadUrl(indexurl);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -128,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //已经处于顶端
                if (mWebView.getScrollY()<-250) {
-                   myWebView.loadUrl("file:///android_asset/new.html");
+                   myWebView.loadUrl(indexurl);
                }
             }
         });
@@ -367,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
             myWebView.loadUrl(call);
             return true;
         }else if(keyCode == KeyEvent.KEYCODE_BACK && canback==2){
-            myWebView.loadUrl("file:///android_asset/new.html");
+            myWebView.loadUrl(indexurl);
             return true;
         }
         return super.onKeyDown(keyCode, event);
