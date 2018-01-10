@@ -368,9 +368,11 @@ public class MainActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK && canback==1) {
             String  call = "javascript:o.hiddenright()";
             myWebView.loadUrl(call);
+            canback=0;
             return true;
         }else if(keyCode == KeyEvent.KEYCODE_BACK && canback==2){
             myWebView.loadUrl(indexurl);
+            canback=0;
             return true;
         }
         return super.onKeyDown(keyCode, event);
