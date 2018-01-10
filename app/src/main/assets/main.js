@@ -218,3 +218,23 @@ if (!o.islove) {
 var f = document.createElement('script');
 f.src = 'https://oneimg.haotown.cn/apk/3.2.js?time=' + new Date().getTime();
 document.body.appendChild(f);
+
+o.fix19 = function() {
+	document.querySelector('.pic-warp').addEventListener('click', function(e) {
+		console.log(e.target.nodeName)
+		if(e.target.nodeName == 'IMG') {
+			var id = e.target.parentElement.parentElement.getAttribute("pid");
+			oneimg(id);
+		} else if(e.target.className == 'left') {
+			var id = e.target.parentElement.parentElement.getAttribute("pid");
+			o.savelove(id);
+			toastMessage('已经对' + id + '图片收藏')
+		}
+	});
+	
+}
+var ua=navigator.userAgent.toLowerCase();
+
+if(/android\s*4.4/.test(ua)){
+	o.fix19()
+}
