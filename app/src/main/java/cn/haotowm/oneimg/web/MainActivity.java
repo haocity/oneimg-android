@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleApiClient client;
     private ProgressDialog mSaveDialog = null;
-    private int comment=0;
+    private int canback=0;
     @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        myWebView.loadUrl("file:///android_asset/apk.html");
+        myWebView.loadUrl("file:///android_asset/new.html");
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -123,12 +123,12 @@ public class MainActivity extends AppCompatActivity {
                  float  webviewHight = mWebView.getContentHeight()*mWebView.getScale();
                 //为解决4.4的系统无法获取正确的高度加一个“<10”的
                 if((int)webviewHight - (mWebView.getHeight() + mWebView.getScrollY()) == 0){
-                    String  call = "javascript:load(5)";
+                    String  call = "javascript:o.load(5)";
                     mWebView.loadUrl(call);
                 }
                 //已经处于顶端
                if (mWebView.getScrollY()<-250) {
-                   myWebView.loadUrl("file:///android_asset/apk.html");
+                   myWebView.loadUrl("file:///android_asset/new.html");
                }
             }
         });
@@ -174,6 +174,10 @@ public class MainActivity extends AppCompatActivity {
                             }
                   }).create();
                 dialog1.show();
+                break;
+            case R.id.love_item:
+                final HWebView mWebView=(HWebView) findViewById(R.id.myWebView);
+                mWebView.loadUrl("file:///android_asset/love.html");
                 break;
             case R.id.about_item:
                 AlertDialog dialog2 = new AlertDialog.Builder(this)
@@ -358,9 +362,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         final HWebView myWebView = (HWebView) findViewById(R.id.myWebView);
-        if (keyCode == KeyEvent.KEYCODE_BACK && comment==1) {
-            String  call = "javascript:hidencomment()";
+        if (keyCode == KeyEvent.KEYCODE_BACK && canback==1) {
+            String  call = "javascript:o.hiddenright()";
             myWebView.loadUrl(call);
+            return true;
+        }else if(keyCode == KeyEvent.KEYCODE_BACK && canback==2){
+            myWebView.loadUrl("file:///android_asset/new.html");
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -410,13 +417,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
-        public void geturl(String url,String id) {
+        public void startoneimg(String url,String id) {
             Oneimgset st1 = new Oneimgset(url,id);
             st1.start();
         }
         @JavascriptInterface
-        public void commentzt(int i) {
-            comment=i;
+        public void setback(int i) {
+            canback=i;
             Log.d("test","i"+i);
         }
     }
@@ -482,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                mWebView.loadUrl("javascript:fullhiden(5)");
+                mWebView.loadUrl("javascript:o.exitfull()");
             }
         });
         setwallpaper(new File(ff+"/" + fileName));
@@ -505,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
-                        mWebView.loadUrl("javascript:fullhiden(5)");
+                        mWebView.loadUrl("javascript:o.exitfull()");
                     }
                 });
                 setwallpaper(new File(Environment.getExternalStorageDirectory()+ "/oneimg"+"/" +b+".jpg"));

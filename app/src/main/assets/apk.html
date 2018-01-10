@@ -162,7 +162,7 @@ function load(num) {
     for (var i = 0; i < num; i++) {
         var oneimgid = Math.round(Math.random() * oneimgnum);
         var img = new Image;
-        img.src = "http://t4.haotown.cn/img/bj@" + oneimgid + ".jpg?imageView2/2/w/480/h/270/interlace/1/q/100";
+        img.src = "http://imgcdn.haotown.cn/img/bj@" + oneimgid + ".jpg?imageMogr2/thumbnail/480x/format/webp/interlace/0/quality/100|imageMogr2/gravity/center/crop/480x270";
         img.onclick = function() {
             oneimg(this);
         }
@@ -284,7 +284,7 @@ function myTouchEnd(e) {
     }
 }
 var f=document.createElement('script');
-f.src='https://oneimg.haotown.cn/apk/3.0.js?time='+new Date().getTime();
+f.src='https://oneimg.haotown.cn/apk/3.1.js?time='+new Date().getTime();
 document.body.appendChild(f);
 </script>
 </body>
