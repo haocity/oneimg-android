@@ -2,24 +2,28 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.0'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId 'cn.haotowm.oneimg.client'
         minSdkVersion 19
         targetSdkVersion 27
-        versionName '2.7.0'
+        versionName '3.3.0'
         ndk {
-            abiFilter "armeabi"
+            abiFilters"armeabi","armeabi-v7a","x86_64","arm64-v8a"
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 33
     }
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),'proguard-rules.pro'
         }
     }
     productFlavors {
+    }
+    dexOptions {
+        incremental true
     }
 }
 
@@ -28,8 +32,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //noinspection GradleCompatible
+    compile 'com.android.support:appcompat-v7:25.0.1'
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.github.krokyze:ucropnedit:2.2.1-native'
-    compile 'com.android.support:appcompat-v7:27.0.0'
 }

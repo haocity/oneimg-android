@@ -28,7 +28,7 @@ if (typeof window.fa == 'undefined') {
 o.all = '5000';
 
 o.creat = function (id) {
-	return '<div class="pic-main" pid="' + id + '">\t\n\t\t\t\t\t<div class="pic-img">\n\t\t\t\t\t\t<img src="http://imgcdn.haotown.cn/img/bj@' + id + '.jpg?imageMogr2/thumbnail/480x/format/webp/interlace/0/quality/100|imageMogr2/gravity/center/crop/480x270"/>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="pic-footer">\n\t\t\t\t\t\t<div class="left">ID:' + id + '</div>\n\t\t\t\t\t\t<div class="right">\u8BC4\u8BBA</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t';
+	return '<div class="pic-main" pid="' + id + '"><div class="pic-img"><img src="https://oneimg.haotown.cn/data/small.php?id=' + id + '"/></div><div class="pic-footer"><div class="left">ID:' + id + '</div><div class="right">\u8BC4\u8BBA</div></div></div>';
 };
 o.load = function (num) {
 	var s = '';
@@ -149,7 +149,8 @@ new AlloyFinger(document.body, {
 		//evt.direction代表滑动的方向
 
 		if (evt.direction == "Right") {
-			console.log("swipe", evt);
+			console.log("swipe", evt.changedTouches[0].pageX);
+			if(evt.changedTouches[0].pageX>180)
 			if ($c(".right-menu").style.display == 'block') {
 				o.hiddenright();
 			}
@@ -216,7 +217,7 @@ if (!o.islove) {
 	o.load(5);
 }
 var f = document.createElement('script');
-f.src = 'https://oneimg.haotown.cn/apk/3.2.js?time=' + new Date().getTime();
+f.src = 'https://oneimg.haotown.cn/apk/3.3.js?time=' + new Date().getTime();
 document.body.appendChild(f);
 
 o.fix19 = function() {
@@ -238,3 +239,13 @@ var ua=navigator.userAgent.toLowerCase();
 if(/android\s*4.4/.test(ua)){
 	o.fix19()
 }
+document.addEventListener('scroll',function(){
+	if(document.documentElement.clientHeight + (document.documentElement.scrollTop||document.body.scrollTop ) >= document.body.offsetHeight-10) {
+		if(!o.isload){
+			console.log('load');
+			o.isload=true;
+			o.load(5);
+			setTimeout(function(){o.isload=false},500);
+		}
+	}
+})

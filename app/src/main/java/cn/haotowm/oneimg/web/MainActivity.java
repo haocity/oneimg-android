@@ -1,6 +1,7 @@
 package cn.haotowm.oneimg.web;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
@@ -31,7 +32,6 @@ import android.util.Log;
 
 import android.view.Display;
 import android.view.KeyEvent;
-//import android.webkit.CookieManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
@@ -64,13 +64,18 @@ public class MainActivity extends AppCompatActivity {
     private GoogleApiClient client;
     private ProgressDialog mSaveDialog = null;
     private int canback=0;
-    private String  indexurl="file:///android_asset/new.html";
+
+    private String  indexurl="file:///android_asset/index.html";
     @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+
+
 
         // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -84,17 +89,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-        final HWebView myWebView = (HWebView) findViewById(R.id.myWebView);
-        WebSettings settings = myWebView.getSettings();
+        final HWebView mWebView=(HWebView) findViewById(R.id.myWebView);
+        //String ua = "Mozilla/5.0 (ONEIMG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
+        WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
+        //settings.setUserAgentString(ua);
         settings.setAllowFileAccess(true);
         settings.setDatabaseEnabled(true);
         String dir = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
         settings.setDatabasePath(dir);
         settings.setDomStorageEnabled(true);
         settings.setGeolocationEnabled(true);
-        myWebView.addJavascriptInterface(new JsInteration(), "control");
+        mWebView.addJavascriptInterface(new JsInteration(), "control");
 //        CookieManager cookieManager = CookieManager.getInstance();
 //        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 //        {
@@ -102,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
 //        } else {
 //            cookieManager.setAcceptCookie(true);
 //        }
-        myWebView.setWebChromeClient(new WebChromeClient() {
+        mWebView.setWebChromeClient(new WebChromeClient() {
         });
-        myWebView.setWebViewClient(new WebViewClient() {
+        mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -112,111 +118,34 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        myWebView.loadUrl(indexurl);
+        mWebView.loadUrl(indexurl);
+
+
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        final HWebView mWebView=(HWebView) findViewById(R.id.myWebView);
+
         mWebView.setOnCustomScroolChangeListener( new HWebView.ScrollInterface() {
             @Override
             public void onSChanged(int l, int t, int oldl, int oldt) {
                 // TODO Auto-generated method stub
-                 float  webviewHight = mWebView.getContentHeight()*mWebView.getScale();
-                //为解决4.4的系统无法获取正确的高度加一个“<10”的
-                if((int)webviewHight - (mWebView.getHeight() + mWebView.getScrollY()) == 0){
-                    String  call = "javascript:o.load(5)";
-                    mWebView.loadUrl(call);
-                }
-                //已经处于顶端
-               if (mWebView.getScrollY()<-250) {
-                   myWebView.loadUrl(indexurl);
-               }
+//                 float  webviewHight = mWebView.getContentHeight()*mWebView.getScale();
+//                //为解决4.4的系统无法获取正确的高度加一个“<10”的
+//                if((int)webviewHight - (mWebView.getHeight() + mWebView.getScrollY()) == 0){
+//                    String  call = "javascript:o.load(5)";
+//                    mWebView.loadUrl(call);
+//                }
+//                //已经处于顶端
+//               if (mWebView.getScrollY()<-250) {
+//                   mWebView.loadUrl(indexurl);
+//               }
             }
         });
 
     }
-    //重写onCreatOptionsMenu()方法
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return true;
-    }
-    //重写on=OptionsItemSelected()方法
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.set_item:
-                String mode=getmode();
-                AlertDialog dialog1 = new AlertDialog.Builder(this)
-               .setTitle(R.string.set)//设置对话框的标题
-               .setMessage(R.string.set1)//设置对话框的内容
-                //设置对话框的按钮
-                .setNeutralButton("模式一(默认)", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                changermode("1");
-                                dialog.dismiss();
-                            }
-                  })
-                .setNegativeButton("模式二", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                changermode("2");
-                                dialog.dismiss();
-                            }
-                })
 
-                  .setPositiveButton("模式三", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                changermode("3");
-                                dialog.dismiss();
-                            }
-                  }).create();
-                dialog1.show();
-                break;
-            case R.id.love_item:
-                final HWebView mWebView=(HWebView) findViewById(R.id.myWebView);
-                mWebView.loadUrl("file:///android_asset/love.html");
-                break;
-            case R.id.about_item:
-                AlertDialog dialog2 = new AlertDialog.Builder(this)
-                        //.setIcon(R.mipmap.icon)//设置标题的图片
-                        .setTitle(R.string.about)//设置对话框的标题
-                        .setMessage(R.string.about1)//设置对话框的内容
-                        //设置对话框的按钮
-                        .setNegativeButton("BLOG", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Uri  uri = Uri.parse("https://www.haotown.cn");
-                                Intent  intent = new  Intent(Intent.ACTION_VIEW, uri);
-                                startActivity(intent);
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNeutralButton("GITHUB", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Uri  uri = Uri.parse("https://github.com/haocity/oneimg-android");
-                                Intent  intent = new  Intent(Intent.ACTION_VIEW, uri);
-                                startActivity(intent);
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).create();
-                dialog2.show();
-                break;
-            default:
-        }
-        return true;
 
-    }
 
     //修改模式
     private void changermode(String i){
@@ -234,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
                 Activity.MODE_PRIVATE);
         String str =mySharedPreferences.getString("mode", "1");
         Log.d("msg", "getmode: "+str);
+
+
         return str;
     }
 
@@ -362,14 +293,14 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        final HWebView myWebView = (HWebView) findViewById(R.id.myWebView);
+        final HWebView mWebView = (HWebView) findViewById(R.id.myWebView);
         if (keyCode == KeyEvent.KEYCODE_BACK && canback==1) {
             String  call = "javascript:o.hiddenright()";
-            myWebView.loadUrl(call);
+            mWebView.loadUrl(call);
             canback=0;
             return true;
         }else if(keyCode == KeyEvent.KEYCODE_BACK && canback==2){
-            myWebView.loadUrl(indexurl);
+            mWebView.loadUrl(indexurl);
             canback=0;
             return true;
         }
@@ -429,6 +360,16 @@ public class MainActivity extends AppCompatActivity {
             canback=i;
             Log.d("test","i"+i);
         }
+        @JavascriptInterface
+        public void jschangermode(String i) {
+            changermode(i);
+        }
+        public void openurl(String i) {
+            Uri  uri = Uri.parse(i);
+            Intent  intent = new  Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+
     }
 
 
@@ -492,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                mWebView.loadUrl("javascript:o.exitfull()");
+                mWebView.loadUrl("javascript:app.full.show=false");
             }
         });
         setwallpaper(new File(ff+"/" + fileName));
@@ -515,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
-                        mWebView.loadUrl("javascript:o.exitfull()");
+                        mWebView.loadUrl("javascript:app.full.show=false");
                     }
                 });
                 setwallpaper(new File(Environment.getExternalStorageDirectory()+ "/oneimg"+"/" +b+".jpg"));
@@ -531,6 +472,7 @@ public class MainActivity extends AppCompatActivity {
         Uri uri= getImageContentUri(MainActivity.this,file);
         //获取模式
         int mode= Integer.parseInt(getmode());
+
         Log.d("mode", "setwallpaper: "+mode);
          if(mode==2){
              //裁剪后保存到文件中
