@@ -5,14 +5,14 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId 'cn.haotowm.oneimg.client'
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
-        versionName '3.3.0'
+        versionName '3.4.0'
         ndk {
             abiFilters"armeabi","armeabi-v7a","x86_64","arm64-v8a"
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionCode 33
+        versionCode 34
     }
     buildTypes {
         release {

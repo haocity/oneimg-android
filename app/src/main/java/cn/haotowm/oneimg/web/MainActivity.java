@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         final HWebView mWebView = (HWebView) findViewById(R.id.myWebView);
         if (keyCode == KeyEvent.KEYCODE_BACK && canback==1) {
-            String  call = "javascript:o.hiddenright()";
+            String  call = "javascript:app.showright=false";
             mWebView.loadUrl(call);
             canback=0;
             return true;
@@ -364,7 +364,9 @@ public class MainActivity extends AppCompatActivity {
         public void jschangermode(String i) {
             changermode(i);
         }
+        @JavascriptInterface
         public void openurl(String i) {
+            Log.d("test","i"+i);
             Uri  uri = Uri.parse(i);
             Intent  intent = new  Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
